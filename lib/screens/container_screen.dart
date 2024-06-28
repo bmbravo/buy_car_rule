@@ -16,7 +16,7 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
   int _selectedPageIndex = 0;
 
   static const List<Map<String, dynamic>> _screenOptions = [
-    {'widget': CalculatorScreen(), 'title': 'Home'},
+    {'widget': CalculatorScreen(), 'title': 'Calculator'},
     {
       'widget': Text(
         'Home 1',
@@ -37,7 +37,16 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${_screenOptions[_selectedPageIndex]['title']}'),
+        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        title: Text(
+          '${_screenOptions[_selectedPageIndex]['title']}',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 3,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+        ),
       ),
       drawer: MainDrawer(
         onSelectScreen: _selectScreen,

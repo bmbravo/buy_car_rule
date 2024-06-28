@@ -1,22 +1,39 @@
-import 'package:buy_car_rule/screens/landing_screen.dart';
+import 'package:buy_car_rule/screens/container_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final theme = ThemeData(
-  colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 0, 29, 54),
-  ),
+final lightColorScheme = ColorScheme.fromSeed(
+  brightness: Brightness.light,
+  seedColor: const Color.fromARGB(255, 68, 197, 229),
+);
+
+final darkColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color.fromARGB(255, 14, 12, 91),
+  brightness: Brightness.dark,
+);
+
+final lightTheme = ThemeData.light().copyWith(
+  colorScheme: lightColorScheme,
+  textTheme: GoogleFonts.inconsolataTextTheme(),
+);
+
+final darkTheme = ThemeData(
+  colorScheme: darkColorScheme,
   textTheme: GoogleFonts.inconsolataTextTheme(),
 );
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: App(),
-    ),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((fn) {
+    runApp(
+      const ProviderScope(
+        child: App(),
+      ),
+    );
+  });
 }
 
 class App extends StatelessWidget {
@@ -24,6 +41,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: theme, home: const LandingScreen());
+    return MaterialApp(
+      darkTheme: darkTheme,
+      theme: lightTheme,
+      themeMode: ThemeMode.system,
+      home: const LandingScreen(),
+    );
   }
 }

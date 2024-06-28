@@ -68,6 +68,18 @@ class CarPurchaseCalculator {
         'Max Monthly Payment: \$${calculateMaxMonthlyPayment().toStringAsFixed(2)}');
     print('Is Payment Within Limit: ${isPaymentWithinLimit()}');
   }
+
+  Map<String, dynamic> getResults() {
+    return {
+      'anual_income': annualIncome.toStringAsFixed(2),
+      'car_price': carPrice.toStringAsFixed(2),
+      'dow_payment': calculateDownPayment().toStringAsFixed(2),
+      'loan_amount': calculateMonthlyPayment().toStringAsFixed(2),
+      'monthly_payment': calculateMonthlyPayment().toStringAsFixed(2),
+      'max_monthly_payment': calculateMaxMonthlyPayment().toStringAsFixed(2),
+      'is_payment_limit': isPaymentWithinLimit()
+    };
+  }
 }
 
 void main() {

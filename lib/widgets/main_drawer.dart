@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -16,10 +17,7 @@ class MainDrawer extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(context)
-                      .colorScheme
-                      .primaryContainer
-                      .withOpacity(0.8),
+                  Theme.of(context).colorScheme.secondaryContainer,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -28,18 +26,21 @@ class MainDrawer extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  Icons.garage,
-                  size: 48,
-                  color: Theme.of(context).colorScheme.primary,
+                  CupertinoIcons.car_detailed,
+                  size: 60,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 const SizedBox(
-                  width: 18,
+                  width: 25,
                 ),
-                Text(
-                  '20/4/10',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                Expanded(
+                  child: Text(
+                    '20/4/10 Calculator',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 28,
+                        ),
+                  ),
                 )
               ],
             ),
@@ -51,7 +52,7 @@ class MainDrawer extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface,
             ),
             title: Text(
-              'New Car',
+              'New calculation',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 24,
@@ -68,7 +69,7 @@ class MainDrawer extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface,
             ),
             title: Text(
-              'Settings',
+              'About',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 24,
@@ -78,6 +79,19 @@ class MainDrawer extends StatelessWidget {
               onSelectScreen(1);
             },
           ),
+          Expanded(
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Text(
+                'Developed By Bill Bravo',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 18,
+                    ),
+              ),
+            ),
+          )
         ],
       ),
     );

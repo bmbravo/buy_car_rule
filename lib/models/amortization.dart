@@ -22,7 +22,7 @@ class AmortizationTable {
     double balance = loanAmount;
     double totalInterest = 0;
 
-    List<Map<String, dynamic>> amortizationList = [];
+    List<Map<String, String>> amortizationList = [];
 
     for (int month = 1; month <= totalPayments; month++) {
       double interestPayment = balance * monthlyInterestRate;
@@ -31,18 +31,18 @@ class AmortizationTable {
       totalInterest += interestPayment;
 
       amortizationList.add({
-        'Month': month,
-        'Payment': monthlyPayment,
-        'Interest': interestPayment,
-        'Principal': principalPayment,
-        'Balance': balance,
+        'Month': month.toString(),
+        'Payment': monthlyPayment.toStringAsFixed(2),
+        'Interest': interestPayment.toStringAsFixed(2),
+        'Principal': principalPayment.toStringAsFixed(2),
+        'Balance': balance.toStringAsFixed(2),
       });
     }
 
     return {
       'AmortizationType': 'French',
-      'TotalInterestPaid': totalInterest,
-      'TotalAmountPaid': loanAmount + totalInterest,
+      'TotalInterestPaid': totalInterest.toStringAsFixed(2),
+      'TotalAmountPaid': (loanAmount + totalInterest).toStringAsFixed(2),
       'AmortizationList': amortizationList,
     };
   }
@@ -58,7 +58,7 @@ class AmortizationTable {
     double balance = loanAmount;
     double totalInterest = 0;
 
-    List<Map<String, dynamic>> amortizationList = [];
+    List<Map<String, String>> amortizationList = [];
 
     for (int month = 1; month <= totalPayments; month++) {
       double interestPayment = balance * monthlyInterestRate;
@@ -67,18 +67,18 @@ class AmortizationTable {
       totalInterest += interestPayment;
 
       amortizationList.add({
-        'Month': month,
-        'Payment': monthlyPayment,
-        'Interest': interestPayment,
-        'Principal': monthlyPrincipalPayment,
-        'Balance': balance,
+        'Month': month.toString(),
+        'Payment': monthlyPayment.toStringAsFixed(2),
+        'Interest': interestPayment.toStringAsFixed(2),
+        'Principal': monthlyPrincipalPayment.toStringAsFixed(2),
+        'Balance': balance.toStringAsFixed(2),
       });
     }
 
     return {
       'AmortizationType': 'German',
-      'TotalInterestPaid': totalInterest,
-      'TotalAmountPaid': loanAmount + totalInterest,
+      'TotalInterestPaid': totalInterest.toStringAsFixed(2),
+      'TotalAmountPaid': (loanAmount + totalInterest).toStringAsFixed(2),
       'AmortizationList': amortizationList,
     };
   }

@@ -1,4 +1,5 @@
 import 'package:buy_car_rule/screens/calculator_screen.dart';
+import 'package:buy_car_rule/screens/results_screen.dart';
 import 'package:buy_car_rule/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,22 +16,32 @@ class LandingScreen extends ConsumerStatefulWidget {
 class _LandingScreenState extends ConsumerState<LandingScreen> {
   int _selectedPageIndex = 0;
 
-  static const List<Map<String, dynamic>> _screenOptions = [
-    {'widget': CalculatorScreen(), 'title': 'Calculator'},
-    {
-      'widget': Text(
-        'Home 1',
-        style: TextStyle(color: Colors.white),
-      ),
-      'title': 'Home 1'
-    }
-  ];
+  List<Map<String, dynamic>> _screenOptions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _screenOptions = [
+      {
+        'widget': CalculatorScreen(onSelectScreen: _selectScreen),
+        'title': 'Calculator'
+      },
+      {
+        'widget': const Text(
+          "Hola",
+          style: TextStyle(color: Colors.red),
+        ),
+        'title': 'Home 1'
+      },
+      {'widget': const ResultsScreen(), 'title': 'Results'},
+    ];
+  }
 
   void _selectScreen(int index) {
     setState(() {
       _selectedPageIndex = index;
     });
-    Navigator.pop(context);
+    if (index < 2) Navigator.pop(context);
   }
 
   @override

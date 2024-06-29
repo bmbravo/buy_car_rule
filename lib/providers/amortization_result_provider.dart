@@ -6,7 +6,7 @@ class AmortizationResultNotifier extends StateNotifier<Map<String, dynamic>> {
           'AmortizationType': 'None',
           'TotalInterestPaid': '0.0',
           'TotalAmountPaid': '0.0',
-          'AmortizationList': <Map<String, dynamic>>[],
+          'AmortizationList': <Map<String, String>>[],
         });
 
   void setAmortizationType(String value) {
@@ -21,7 +21,7 @@ class AmortizationResultNotifier extends StateNotifier<Map<String, dynamic>> {
     state = {...state, 'TotalAmountPaid': value};
   }
 
-  void setAmortizationList(List<Map<String, dynamic>> value) {
+  void setAmortizationList(List<Map<String, String>> value) {
     state = {...state, 'AmortizationList': value};
   }
 }

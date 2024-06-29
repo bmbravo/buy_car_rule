@@ -39,6 +39,15 @@ class CalculatorResultsNotifier extends StateNotifier<Map<String, dynamic>> {
   void setIsPaymentLimit(bool value) {
     state = {...state, 'is_payment_limit': value};
   }
+
+  // Métodos para obtener valores
+  String get annualIncome => state['anual_income'];
+  String get carPrice => state['car_price'];
+  String get downPayment => state['down_payment'];
+  String get loanAmount => state['loan_amount'];
+  String get monthlyPayment => state['monthly_payment'];
+  String get maxMonthlyPayment => state['max_monthly_payment'];
+  bool get isPaymentLimit => state['is_payment_limit'];
 }
 
 final calculatorResultsProvider =

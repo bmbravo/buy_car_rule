@@ -74,7 +74,7 @@ class CarPurchaseCalculator {
       'anual_income': annualIncome.toStringAsFixed(2),
       'car_price': carPrice.toStringAsFixed(2),
       'dow_payment': calculateDownPayment().toStringAsFixed(2),
-      'loan_amount': calculateMonthlyPayment().toStringAsFixed(2),
+      'loan_amount': calculateLoanAmount().toStringAsFixed(2),
       'monthly_payment': calculateMonthlyPayment().toStringAsFixed(2),
       'max_monthly_payment': calculateMaxMonthlyPayment().toStringAsFixed(2),
       'is_payment_limit': isPaymentWithinLimit()
@@ -82,46 +82,46 @@ class CarPurchaseCalculator {
   }
 }
 
-void main() {
-  // Ejemplo de uso de la clase CarPurchaseCalculator
-  CarPurchaseCalculator calculator = CarPurchaseCalculator(
-    annualIncome: 16611.84,
-    carPrice: 24000,
-    interestRate: 6.5,
-    loanTermYears: 4,
-    downPaymentPercentage: 0.20,
-    maxMonthlyPaymentPercentage: 0.10,
-    amortizationType: AmortizationType.french,
-  );
+// void main() {
+//   // Ejemplo de uso de la clase CarPurchaseCalculator
+//   CarPurchaseCalculator calculator = CarPurchaseCalculator(
+//     annualIncome: 16611.84,
+//     carPrice: 24000,
+//     interestRate: 6.5,
+//     loanTermYears: 4,
+//     downPaymentPercentage: 0.20,
+//     maxMonthlyPaymentPercentage: 0.10,
+//     amortizationType: AmortizationType.french,
+//   );
 
-  calculator.displayResults();
+//   calculator.displayResults();
 
-  // Generar y mostrar la tabla de amortización
-  AmortizationTable amortizationTable = AmortizationTable(calculator);
-  var frenchAmortization = amortizationTable.generateFrenchAmortizationTable();
-  var germanAmortization = amortizationTable.generateGermanAmortizationTable();
+//   // Generar y mostrar la tabla de amortización
+//   AmortizationTable amortizationTable = AmortizationTable(calculator);
+//   var frenchAmortization = amortizationTable.generateFrenchAmortizationTable();
+//   var germanAmortization = amortizationTable.generateGermanAmortizationTable();
 
-  print('\nFrench Amortization Table:');
-  print('Type: ${frenchAmortization['AmortizationType']}');
-  print(
-      'Total Interest Paid: \$${frenchAmortization['TotalInterestPaid'].toStringAsFixed(2)}');
-  print(
-      'Total Amount Paid: \$${frenchAmortization['TotalAmountPaid'].toStringAsFixed(2)}');
-  print('Month\tPayment\t\tInterest\tPrincipal\tBalance');
-  for (var entry in frenchAmortization['AmortizationList']) {
-    print(
-        '${entry['Month']}\t\t\$${entry['Payment'].toStringAsFixed(2)}\t\t\$${entry['Interest'].toStringAsFixed(2)}\t\t\$${entry['Principal'].toStringAsFixed(2)}\t\t\$${entry['Balance'].toStringAsFixed(2)}');
-  }
+//   print('\nFrench Amortization Table:');
+//   print('Type: ${frenchAmortization['AmortizationType']}');
+//   print(
+//       'Total Interest Paid: \$${frenchAmortization['TotalInterestPaid'].toStringAsFixed(2)}');
+//   print(
+//       'Total Amount Paid: \$${frenchAmortization['TotalAmountPaid'].toStringAsFixed(2)}');
+//   print('Month\tPayment\t\tInterest\tPrincipal\tBalance');
+//   for (var entry in frenchAmortization['AmortizationList']) {
+//     print(
+//         '${entry['Month']}\t\t\$${entry['Payment'].toStringAsFixed(2)}\t\t\$${entry['Interest'].toStringAsFixed(2)}\t\t\$${entry['Principal'].toStringAsFixed(2)}\t\t\$${entry['Balance'].toStringAsFixed(2)}');
+//   }
 
-  print('\nGerman Amortization Table:');
-  print('Type: ${germanAmortization['AmortizationType']}');
-  print(
-      'Total Interest Paid: \$${germanAmortization['TotalInterestPaid'].toStringAsFixed(2)}');
-  print(
-      'Total Amount Paid: \$${germanAmortization['TotalAmountPaid'].toStringAsFixed(2)}');
-  print('Month\tPayment\t\tInterest\tPrincipal\tBalance');
-  for (var entry in germanAmortization['AmortizationList']) {
-    print(
-        '${entry['Month']}\t\t\$${entry['Payment'].toStringAsFixed(2)}\t\t\$${entry['Interest'].toStringAsFixed(2)}\t\t\$${entry['Principal'].toStringAsFixed(2)}\t\t\$${entry['Balance'].toStringAsFixed(2)}');
-  }
-}
+//   print('\nGerman Amortization Table:');
+//   print('Type: ${germanAmortization['AmortizationType']}');
+//   print(
+//       'Total Interest Paid: \$${germanAmortization['TotalInterestPaid'].toStringAsFixed(2)}');
+//   print(
+//       'Total Amount Paid: \$${germanAmortization['TotalAmountPaid'].toStringAsFixed(2)}');
+//   print('Month\tPayment\t\tInterest\tPrincipal\tBalance');
+//   for (var entry in germanAmortization['AmortizationList']) {
+//     print(
+//         '${entry['Month']}\t\t\$${entry['Payment'].toStringAsFixed(2)}\t\t\$${entry['Interest'].toStringAsFixed(2)}\t\t\$${entry['Principal'].toStringAsFixed(2)}\t\t\$${entry['Balance'].toStringAsFixed(2)}');
+//   }
+// }

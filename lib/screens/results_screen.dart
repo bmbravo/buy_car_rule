@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:buy_car_rule/providers/amortization_result_provider.dart';
 import 'package:buy_car_rule/providers/calculator_results_provider.dart';
 import 'package:buy_car_rule/widgets/amortization_table.dart';
@@ -13,6 +15,46 @@ class ResultsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final calculatorResults = ref.watch(calculatorResultsProvider);
     final amortizationResults = ref.watch(amortizationResultProvider);
+
+    void showDialogBudget() {
+      String textDialog = calculatorResults['is_payment_limit'] == true
+          ? 'Your monthly payment is good for your budget'
+          : 'You monthly payment exceeds your budget';
+
+      if (Platform.isIOS) {
+        showCupertinoDialog(
+          context: context,
+          builder: (ctx) => CupertinoAlertDialog(
+            title: const Text('Budget Status'),
+            content: Text(textDialog),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Okay'),
+              )
+            ],
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Budget Status'),
+            content: Text(textDialog),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Okay'),
+              )
+            ],
+          ),
+        );
+      }
+    }
 
     return SizedBox(
       height: double.infinity,
@@ -50,15 +92,8 @@ class ResultsScreen extends ConsumerWidget {
               ResultCard(
                 text:
                     'Monthly Payment: \$${calculatorResults['monthly_payment']}',
-                trailingIcon: Tooltip(
-                  showDuration: const Duration(seconds: 30),
-                  textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: 16,
-                      ),
-                  message: calculatorResults['is_payment_limit'] == true
-                      ? 'Your monthly payment is good for your budget'
-                      : 'Your monthly payment exceeds your budget',
-                  triggerMode: TooltipTriggerMode.tap,
+                trailingIcon: GestureDetector(
+                  onTap: showDialogBudget,
                   child: Icon(
                     CupertinoIcons.info_circle_fill,
                     color: calculatorResults['is_payment_limit'] == true

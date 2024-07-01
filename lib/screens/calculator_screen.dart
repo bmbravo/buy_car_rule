@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:buy_car_rule/models/amortization.dart';
 import 'package:buy_car_rule/models/calculator.dart';
 import 'package:buy_car_rule/providers/amortization_result_provider.dart';
@@ -30,21 +32,39 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
   final _interestRateController = TextEditingController();
 
   void _showDialog({required String errorText}) {
-    showCupertinoDialog(
-      context: context,
-      builder: (ctx) => CupertinoAlertDialog(
-        title: const Text('Invalid Input'),
-        content: Text(errorText),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-            },
-            child: const Text('Okay'),
-          )
-        ],
-      ),
-    );
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+          title: const Text('Invalid Input'),
+          content: Text(errorText),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            )
+          ],
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Invalid Input'),
+          content: Text(errorText),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            )
+          ],
+        ),
+      );
+    }
   }
 
   @override

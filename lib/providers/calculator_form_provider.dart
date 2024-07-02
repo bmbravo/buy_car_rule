@@ -13,6 +13,18 @@ class CalculatorFormNotifier extends StateNotifier<Map<String, dynamic>> {
           'amortizationType': AmortizationType.french,
         });
 
+  void reset() {
+    state = {
+      'anualIncome': '',
+      'carPrice': '',
+      'downPayment': '',
+      'maxMonthlyPayment': '',
+      'loanTerm': '',
+      'loanInterestRate': '',
+      'amortizationType': AmortizationType.french,
+    };
+  }
+
   void setAnualIncome(String value) {
     state = {...state, 'anualIncome': value};
   }

@@ -23,8 +23,6 @@ class CalculatorScreen extends ConsumerStatefulWidget {
 }
 
 class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
-  late AmortizationType _selectedAmortization;
-
   final _anualIncomeController = TextEditingController();
   final _carPriceController = TextEditingController();
   final _dowPaymentController = TextEditingController();
@@ -103,15 +101,16 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
     _monthlyPaymentController.text = calculatorFormState['maxMonthlyPayment'];
     _loanTermController.text = calculatorFormState['loanTerm'];
     _interestRateController.text = calculatorFormState['loanInterestRate'];
-    _selectedAmortization = calculatorFormState['amortizationType'];
 
     void submitData() async {
-      final anualIncome = double.tryParse(_anualIncomeController.text);
-      final carPrice = double.tryParse(_carPriceController.text);
-      final downPayment = double.tryParse(_dowPaymentController.text);
-      final monthlyPayment = double.tryParse(_monthlyPaymentController.text);
-      final loanTerm = int.tryParse(_loanTermController.text);
-      final interestRate = double.tryParse(_interestRateController.text);
+      final anualIncome = double.tryParse(calculatorFormState['anualIncome']);
+      final carPrice = double.tryParse(calculatorFormState['carPrice']);
+      final downPayment = double.tryParse(calculatorFormState['downPayment']);
+      final monthlyPayment =
+          double.tryParse(calculatorFormState['maxMonthlyPayment']);
+      final loanTerm = int.tryParse(calculatorFormState['loanTerm']);
+      final interestRate =
+          double.tryParse(calculatorFormState['loanInterestRate']);
 
       String? errorText;
 
@@ -159,7 +158,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
           loanTermYears: loanTerm,
           downPaymentPercentage: downPayment! / 100,
           maxMonthlyPaymentPercentage: monthlyPayment! / 100,
-          amortizationType: _selectedAmortization,
+          amortizationType: calculatorFormState['amortizationType'],
         );
 
         final results = calculator.getResults();
@@ -177,7 +176,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
         Map<String, dynamic> amortizationResult;
 
         AmortizationTable amortizationTable = AmortizationTable(calculator);
-        if (_selectedAmortization == AmortizationType.french) {
+        if (calculatorFormState['amortizationType'] ==
+            AmortizationType.french) {
           amortizationResult =
               amortizationTable.generateFrenchAmortizationTable();
         } else {
@@ -194,15 +194,6 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
         amortizationResultsNotifier
             .setAmortizationList(amortizationResult['AmortizationList']);
 
-        calculatorFormNotifier.setAnualIncome(_anualIncomeController.text);
-        calculatorFormNotifier.setCarPrice(_carPriceController.text);
-        calculatorFormNotifier.setDownPayment(_dowPaymentController.text);
-        calculatorFormNotifier
-            .setMaxMonthlyPayment(_monthlyPaymentController.text);
-        calculatorFormNotifier.setLoanTerm(_loanTermController.text);
-        calculatorFormNotifier
-            .setLoanInterestRate(_interestRateController.text);
-
         widget.onSelectScreen(2);
       } on Exception catch (e) {
         _showDialog(errorText: 'An error ocurred please try again later: $e');
@@ -218,6 +209,9 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
             children: [
               TextField(
                 controller: _anualIncomeController,
+                onChanged: (value) {
+                  calculatorFormNotifier.setAnualIncome(value);
+                },
                 maxLength: 25,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
@@ -240,6 +234,10 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               const SizedBox(height: 25),
               TextField(
                 controller: _carPriceController,
+                onChanged: (value) {
+                  if (value.isEmpty) return;
+                  calculatorFormNotifier.setCarPrice(value);
+                },
                 maxLength: 25,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
@@ -262,6 +260,10 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               const SizedBox(height: 25),
               TextField(
                 controller: _dowPaymentController,
+                onChanged: (value) {
+                  if (value.isEmpty) return;
+                  calculatorFormNotifier.setDownPayment(value);
+                },
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 20),
@@ -286,6 +288,10 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               const SizedBox(height: 25),
               TextField(
                 controller: _monthlyPaymentController,
+                onChanged: (value) {
+                  if (value.isEmpty) return;
+                  calculatorFormNotifier.setMaxMonthlyPayment(value);
+                },
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 20),
@@ -310,6 +316,10 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               const SizedBox(height: 25),
               TextField(
                 controller: _loanTermController,
+                onChanged: (value) {
+                  if (value.isEmpty) return;
+                  calculatorFormNotifier.setLoanTerm(value);
+                },
                 maxLength: 2,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
@@ -331,6 +341,10 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               const SizedBox(height: 25),
               TextField(
                 controller: _interestRateController,
+                onChanged: (value) {
+                  if (value.isEmpty) return;
+                  calculatorFormNotifier.setLoanInterestRate(value);
+                },
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 20),
@@ -356,7 +370,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
               DropdownButtonHideUnderline(
                 child: DropdownButton<AmortizationType>(
                   isExpanded: true,
-                  value: _selectedAmortization,
+                  value: calculatorFormState['amortizationType'],
                   items: AmortizationType.values.map((amortization) {
                     return DropdownMenuItem<AmortizationType>(
                       value: amortization,
@@ -370,9 +384,6 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   }).toList(),
                   onChanged: (value) {
                     if (value == null) return;
-                    setState(() {
-                      _selectedAmortization = value;
-                    });
                     calculatorFormNotifier.setAmortizationType(value);
                   },
                   selectedItemBuilder: (BuildContext context) {

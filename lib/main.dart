@@ -17,11 +17,29 @@ final darkColorScheme = ColorScheme.fromSeed(
 final lightTheme = ThemeData.light().copyWith(
   colorScheme: lightColorScheme,
   textTheme: GoogleFonts.inconsolataTextTheme(),
+  tooltipTheme: TooltipThemeData(
+    decoration: BoxDecoration(
+      color: lightColorScheme.secondaryContainer,
+    ),
+    textStyle: TextStyle(
+      fontSize: 16.0,
+      color: lightColorScheme.onSurface,
+    ),
+  ),
 );
 
 final darkTheme = ThemeData(
   colorScheme: darkColorScheme,
   textTheme: GoogleFonts.inconsolataTextTheme(),
+  tooltipTheme: TooltipThemeData(
+    decoration: BoxDecoration(
+      color: darkColorScheme.onSurface,
+    ),
+    textStyle: TextStyle(
+      fontSize: 16.0,
+      color: lightColorScheme.onSurface,
+    ),
+  ),
 );
 
 void main() {

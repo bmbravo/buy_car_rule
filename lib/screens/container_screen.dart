@@ -1,3 +1,4 @@
+import 'package:buy_car_rule/providers/calculator_form_provider.dart';
 import 'package:buy_car_rule/screens/calculator_screen.dart';
 import 'package:buy_car_rule/screens/results_screen.dart';
 import 'package:buy_car_rule/widgets/main_drawer.dart';
@@ -51,10 +52,14 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final calculatorFormNotifier = ref.read(calculatorFormProvider.notifier);
+
     return Scaffold(
       floatingActionButton: _selectedPageIndex == 0
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                calculatorFormNotifier.reset();
+              },
               tooltip: 'Clear data',
               child: const Icon(
                 CupertinoIcons.clear_circled,

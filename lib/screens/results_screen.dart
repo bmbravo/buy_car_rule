@@ -8,11 +8,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ResultsScreen extends ConsumerWidget {
-  const ResultsScreen({super.key});
+class ResultsScreen extends ConsumerStatefulWidget {
+  const ResultsScreen({super.key, required this.onSelectScreen});
+
+  final void Function(int index) onSelectScreen;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _ResultsScreenState();
+  }
+}
+
+class _ResultsScreenState extends ConsumerState<ResultsScreen> {
+  @override
+  Widget build(BuildContext context) {
     final calculatorResults = ref.watch(calculatorResultsProvider);
     final amortizationResults = ref.watch(amortizationResultProvider);
 
@@ -64,6 +73,32 @@ class ResultsScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              ElevatedButton.icon(
+                icon: const Icon(CupertinoIcons.arrow_left),
+                iconAlignment: IconAlignment.start,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.onSecondary,
+                ),
+                onPressed: () {
+                  widget.onSelectScreen(0);
+                },
+                label: Text(
+                  'Go Back',
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Calculator Results',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+              ),
+              const SizedBox(height: 10),
               ResultCard(
                 text: 'Anual Income: \$${calculatorResults['anual_income']}',
               ),
@@ -102,7 +137,29 @@ class ResultsScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 15),
+              Text(
+                'Loan Results',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+              ),
+              const SizedBox(height: 10),
+              ResultCard(
+                text:
+                    'Amortization Type: ${amortizationResults['AmortizationType']}',
+              ),
+              const SizedBox(height: 10),
+              ResultCard(
+                text:
+                    'Total Interest: \$${amortizationResults['TotalInterestPaid']}',
+              ),
+              const SizedBox(height: 10),
+              ResultCard(
+                text:
+                    'Total Loan Amount: \$${amortizationResults['TotalAmountPaid']}',
+              ),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,

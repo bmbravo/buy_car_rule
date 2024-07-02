@@ -60,6 +60,7 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen(0);
+              Navigator.pop(context);
             },
           ),
           ListTile(
@@ -77,6 +78,7 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               onSelectScreen(1);
+              Navigator.pop(context);
             },
           ),
           Expanded(

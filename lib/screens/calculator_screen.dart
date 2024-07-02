@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:buy_car_rule/models/amortization.dart';
 import 'package:buy_car_rule/models/calculator.dart';
 import 'package:buy_car_rule/providers/amortization_result_provider.dart';
+import 'package:buy_car_rule/providers/calculator_form_provider.dart';
 import 'package:buy_car_rule/providers/calculator_results_provider.dart';
 import 'package:buy_car_rule/utils/percentage_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +23,7 @@ class CalculatorScreen extends ConsumerStatefulWidget {
 }
 
 class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
-  AmortizationType _selectedAmortization = AmortizationType.french;
+  late AmortizationType _selectedAmortization;
 
   final _anualIncomeController = TextEditingController();
   final _carPriceController = TextEditingController();
@@ -30,6 +31,13 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
   final _monthlyPaymentController = TextEditingController();
   final _loanTermController = TextEditingController();
   final _interestRateController = TextEditingController();
+
+  String? validateField(String fieldName, double? value) {
+    if (value == null || value <= 0) {
+      return 'Please enter a valid $fieldName';
+    }
+    return null;
+  }
 
   void _showDialog({required String errorText}) {
     if (Platform.isIOS) {
@@ -86,8 +94,18 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
     final amortizationResultsNotifier =
         ref.read(amortizationResultProvider.notifier);
 
+    final calculatorFormState = ref.watch(calculatorFormProvider);
+    final calculatorFormNotifier = ref.read(calculatorFormProvider.notifier);
+
+    _anualIncomeController.text = calculatorFormState['anualIncome'];
+    _carPriceController.text = calculatorFormState['carPrice'];
+    _dowPaymentController.text = calculatorFormState['downPayment'];
+    _monthlyPaymentController.text = calculatorFormState['maxMonthlyPayment'];
+    _loanTermController.text = calculatorFormState['loanTerm'];
+    _interestRateController.text = calculatorFormState['loanInterestRate'];
+    _selectedAmortization = calculatorFormState['amortizationType'];
+
     void submitData() async {
-      var errorText = '';
       final anualIncome = double.tryParse(_anualIncomeController.text);
       final carPrice = double.tryParse(_carPriceController.text);
       final downPayment = double.tryParse(_dowPaymentController.text);
@@ -95,54 +113,100 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
       final loanTerm = int.tryParse(_loanTermController.text);
       final interestRate = double.tryParse(_interestRateController.text);
 
-      if (anualIncome == null || anualIncome <= 0) {
-        errorText = 'Please enter a valid Anual Income';
+      String? errorText;
+
+      errorText = validateField('Annual Income', anualIncome);
+      if (errorText != null) {
         _showDialog(errorText: errorText);
         return;
       }
 
-      CarPurchaseCalculator calculator = CarPurchaseCalculator(
-        annualIncome: anualIncome,
-        carPrice: carPrice!,
-        interestRate: interestRate!,
-        loanTermYears: loanTerm!,
-        downPaymentPercentage: downPayment! / 100,
-        maxMonthlyPaymentPercentage: monthlyPayment! / 100,
-        amortizationType: _selectedAmortization,
-      );
-
-      final results = calculator.getResults();
-
-      calculatorResultsNotifier.setAnnualIncome(results['anual_income']);
-      calculatorResultsNotifier.setCarPrice(results['car_price']);
-      calculatorResultsNotifier.setDownPayment(results['dow_payment']);
-      calculatorResultsNotifier.setLoanAmount(results['loan_amount']);
-      calculatorResultsNotifier.setMonthlyPayment(results['monthly_payment']);
-      calculatorResultsNotifier
-          .setMaxMonthlyPayment(results['max_monthly_payment']);
-      calculatorResultsNotifier.setIsPaymentLimit(results['is_payment_limit']);
-
-      Map<String, dynamic> amortizationResult;
-
-      AmortizationTable amortizationTable = AmortizationTable(calculator);
-      if (_selectedAmortization == AmortizationType.french) {
-        amortizationResult =
-            amortizationTable.generateFrenchAmortizationTable();
-      } else {
-        amortizationResult =
-            amortizationTable.generateGermanAmortizationTable();
+      errorText = validateField('Car Price', carPrice);
+      if (errorText != null) {
+        _showDialog(errorText: errorText);
+        return;
       }
 
-      amortizationResultsNotifier
-          .setAmortizationType(amortizationResult['AmortizationType']);
-      amortizationResultsNotifier
-          .setTotalAmountPaid(amortizationResult['TotalAmountPaid']);
-      amortizationResultsNotifier
-          .setTotalInterestPaid(amortizationResult['TotalInterestPaid']);
-      amortizationResultsNotifier
-          .setAmortizationList(amortizationResult['AmortizationList']);
+      errorText = validateField('Down Payment', downPayment);
+      if (errorText != null) {
+        _showDialog(errorText: errorText);
+        return;
+      }
 
-      widget.onSelectScreen(2);
+      errorText = validateField('Max Monthly Payment', monthlyPayment);
+      if (errorText != null) {
+        _showDialog(errorText: errorText);
+        return;
+      }
+
+      if (loanTerm == null || loanTerm <= 0) {
+        errorText = 'Please enter a valid Loan Term';
+        _showDialog(errorText: errorText);
+        return;
+      }
+
+      errorText = validateField('Loan Interest Rate', interestRate);
+      if (errorText != null) {
+        _showDialog(errorText: errorText);
+        return;
+      }
+
+      try {
+        CarPurchaseCalculator calculator = CarPurchaseCalculator(
+          annualIncome: anualIncome!,
+          carPrice: carPrice!,
+          interestRate: interestRate!,
+          loanTermYears: loanTerm,
+          downPaymentPercentage: downPayment! / 100,
+          maxMonthlyPaymentPercentage: monthlyPayment! / 100,
+          amortizationType: _selectedAmortization,
+        );
+
+        final results = calculator.getResults();
+
+        calculatorResultsNotifier.setAnnualIncome(results['anual_income']);
+        calculatorResultsNotifier.setCarPrice(results['car_price']);
+        calculatorResultsNotifier.setDownPayment(results['dow_payment']);
+        calculatorResultsNotifier.setLoanAmount(results['loan_amount']);
+        calculatorResultsNotifier.setMonthlyPayment(results['monthly_payment']);
+        calculatorResultsNotifier
+            .setMaxMonthlyPayment(results['max_monthly_payment']);
+        calculatorResultsNotifier
+            .setIsPaymentLimit(results['is_payment_limit']);
+
+        Map<String, dynamic> amortizationResult;
+
+        AmortizationTable amortizationTable = AmortizationTable(calculator);
+        if (_selectedAmortization == AmortizationType.french) {
+          amortizationResult =
+              amortizationTable.generateFrenchAmortizationTable();
+        } else {
+          amortizationResult =
+              amortizationTable.generateGermanAmortizationTable();
+        }
+
+        amortizationResultsNotifier
+            .setAmortizationType(amortizationResult['AmortizationType']);
+        amortizationResultsNotifier
+            .setTotalAmountPaid(amortizationResult['TotalAmountPaid']);
+        amortizationResultsNotifier
+            .setTotalInterestPaid(amortizationResult['TotalInterestPaid']);
+        amortizationResultsNotifier
+            .setAmortizationList(amortizationResult['AmortizationList']);
+
+        calculatorFormNotifier.setAnualIncome(_anualIncomeController.text);
+        calculatorFormNotifier.setCarPrice(_carPriceController.text);
+        calculatorFormNotifier.setDownPayment(_dowPaymentController.text);
+        calculatorFormNotifier
+            .setMaxMonthlyPayment(_monthlyPaymentController.text);
+        calculatorFormNotifier.setLoanTerm(_loanTermController.text);
+        calculatorFormNotifier
+            .setLoanInterestRate(_interestRateController.text);
+
+        widget.onSelectScreen(2);
+      } on Exception catch (e) {
+        _showDialog(errorText: 'An error ocurred please try again later: $e');
+      }
     }
 
     return SizedBox(
@@ -209,7 +273,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 ],
                 decoration: InputDecoration(
                   icon: const Icon(CupertinoIcons.percent),
-                  labelText: 'Down Payment Percentage',
+                  labelText: 'Down Payment',
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -233,7 +297,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 ],
                 decoration: InputDecoration(
                   icon: const Icon(CupertinoIcons.percent),
-                  labelText: 'Max Monthly Payment Percentage',
+                  labelText: 'Max Monthly Payment',
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -309,6 +373,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                     setState(() {
                       _selectedAmortization = value;
                     });
+                    calculatorFormNotifier.setAmortizationType(value);
                   },
                   selectedItemBuilder: (BuildContext context) {
                     return AmortizationType.values.map<Widget>((amortization) {

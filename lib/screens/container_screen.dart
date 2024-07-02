@@ -1,6 +1,7 @@
 import 'package:buy_car_rule/screens/calculator_screen.dart';
 import 'package:buy_car_rule/screens/results_screen.dart';
 import 'package:buy_car_rule/widgets/main_drawer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,7 +34,12 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
         ),
         'title': 'Home 1'
       },
-      {'widget': const ResultsScreen(), 'title': 'Results'},
+      {
+        'widget': ResultsScreen(
+          onSelectScreen: _selectScreen,
+        ),
+        'title': 'Results'
+      },
     ];
   }
 
@@ -41,12 +47,21 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
     setState(() {
       _selectedPageIndex = index;
     });
-    if (index < 2) Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _selectedPageIndex == 0
+          ? FloatingActionButton(
+              onPressed: () {},
+              tooltip: 'Clear data',
+              child: const Icon(
+                CupertinoIcons.clear_circled,
+                size: 35,
+              ),
+            )
+          : null,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         title: Text(

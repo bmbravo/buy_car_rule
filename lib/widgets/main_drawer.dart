@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
@@ -35,7 +36,7 @@ class MainDrawer extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    '20/4/10 Calculator',
+                    '20/4/10',
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
                           fontSize: 28,
@@ -52,7 +53,7 @@ class MainDrawer extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface,
             ),
             title: Text(
-              'New calculation',
+              AppLocalizations.of(context)!.newCalculation,
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 24,
@@ -70,7 +71,7 @@ class MainDrawer extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface,
             ),
             title: Text(
-              'About',
+              AppLocalizations.of(context)!.settingsScreenTitle,
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 24,
@@ -86,7 +87,7 @@ class MainDrawer extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.only(bottom: 30),
               child: Text(
-                'Developed By Bill Bravo',
+                '${AppLocalizations.of(context)!.developedBy} Bill Bravo',
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 18,

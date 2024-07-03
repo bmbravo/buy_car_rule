@@ -1,8 +1,11 @@
+import 'package:buy_car_rule/providers/language_provider.dart';
 import 'package:buy_car_rule/screens/container_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final lightColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
@@ -54,12 +57,25 @@ void main() {
   });
 }
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final languageState = ref.watch(languageProvider);
+
     return MaterialApp(
+      locale: Locale(languageState['language']!),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('es'), // Spanish
+      ],
       darkTheme: darkTheme,
       theme: lightTheme,
       themeMode: ThemeMode.system,

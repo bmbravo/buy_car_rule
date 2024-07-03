@@ -1,0 +1,11 @@
+{
+  "@@locale": "es",
+  "newCalculation": "Nuevo Cálculo",
+  "calculatorScreenTitle": "Calculadora",
+  "settingsScreenTitle": "Ajustes",
+  "resultsScreenTitle": "Resultados",
+  "english": "Inglés",
+  "spanish": "Español",
+  "developedBy": "Desarrollado por",
+  "clearData": "Limpiar Datos"
+}

@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "newCalculation": "New Calculation",
+  "calculatorScreenTitle": "Calculator",
+  "settingsScreenTitle": "Settings",
+  "resultsScreenTitle": "Results",
+  "english": "English",
+  "spanish": "Spanish",
+  "developedBy": "Developed by",
+  "clearData": "Clear Data"
+}

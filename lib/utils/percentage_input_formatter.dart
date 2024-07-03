@@ -13,13 +13,20 @@ class PercentageInputFormatter extends TextInputFormatter {
     final newText = newValue.text;
 
     // Permitir sólo un punto decimal
-    if (newText.contains(',') &&
-        newText.indexOf(',') != newText.lastIndexOf(',')) {
+    if ((newText.contains('.') &&
+            newText.indexOf('.') != newText.lastIndexOf('.')) ||
+        (newText.contains(',') &&
+            newText.indexOf(',') != newText.lastIndexOf(','))) {
       return oldValue;
     }
 
     // Dividir el texto en parte entera y decimal
-    final parts = newText.split(',');
+    List<String> parts;
+    if (newText.contains('.')) {
+      parts = newText.split('.');
+    } else {
+      parts = newText.split(',');
+    }
 
     // Verificar que la parte entera esté entre 1 y 99
     final integerPart = parts[0];

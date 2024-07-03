@@ -7,5 +7,12 @@
   "english": "Inglés",
   "spanish": "Español",
   "developedBy": "Desarrollado por",
-  "clearData": "Limpiar Datos"
+  "clearData": "Limpiar Datos",
+  "anualIncomeTextField": "Ingresos Anuales Netos",
+  "carPriceTextField": "Precio del Auto",
+  "downPaymentTextField": "Entrada del Auto",
+  "monthlyPaymentTextField": "Pago Máximo Mensual",
+  "loanTermTextField": "Plazo del Préstamo en Años",
+  "interestRateTextField": "Tasa de Interés",
+  "calculateButtonText": "Calcular"
 }

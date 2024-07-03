@@ -7,5 +7,12 @@
   "english": "English",
   "spanish": "Spanish",
   "developedBy": "Developed by",
-  "clearData": "Clear Data"
+  "clearData": "Clear Data",
+  "anualIncomeTextField": "Gross Anual Income",
+  "carPriceTextField": "Car Price",
+  "downPaymentTextField": "Down Payment",
+  "monthlyPaymentTextField": "Max Monthly Payment",
+  "loanTermTextField": "Loan Term in Years",
+  "interestRateTextField": "Loan Interest Rate",
+  "calculateButtonText": "Calculate"
 }

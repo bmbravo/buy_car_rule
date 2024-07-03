@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalculatorScreen extends ConsumerStatefulWidget {
   const CalculatorScreen({super.key, required this.onSelectScreen});
@@ -217,11 +218,11 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 20),
                 keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                    const TextInputType.numberWithOptions(decimal: false),
                 decoration: InputDecoration(
                   counterText: '',
                   icon: const Icon(CupertinoIcons.money_dollar),
-                  labelText: 'Gross Annual Income',
+                  labelText: AppLocalizations.of(context)!.anualIncomeTextField,
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -243,11 +244,11 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 20),
                 keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                    const TextInputType.numberWithOptions(decimal: false),
                 decoration: InputDecoration(
                   counterText: '',
                   icon: const Icon(CupertinoIcons.car_detailed),
-                  labelText: 'Car Price',
+                  labelText: AppLocalizations.of(context)!.carPriceTextField,
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -262,7 +263,15 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 controller: _dowPaymentController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
-                  calculatorFormNotifier.setDownPayment(value);
+                  String sanitizedValue = value.replaceAll(',', '.');
+                  // Actualizar el valor en el controlador
+                  _dowPaymentController.value =
+                      _dowPaymentController.value.copyWith(
+                    text: sanitizedValue,
+                    selection:
+                        TextSelection.collapsed(offset: sanitizedValue.length),
+                  );
+                  calculatorFormNotifier.setDownPayment(sanitizedValue);
                 },
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
@@ -270,12 +279,13 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\,?\d{0,2}')),
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^\d*\.?\,?\d{0,2}')),
                   PercentageInputFormatter(),
                 ],
                 decoration: InputDecoration(
                   icon: const Icon(CupertinoIcons.percent),
-                  labelText: 'Down Payment',
+                  labelText: AppLocalizations.of(context)!.downPaymentTextField,
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -290,7 +300,15 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 controller: _monthlyPaymentController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
-                  calculatorFormNotifier.setMaxMonthlyPayment(value);
+                  String sanitizedValue = value.replaceAll(',', '.');
+                  // Actualizar el valor en el controlador
+                  _monthlyPaymentController.value =
+                      _monthlyPaymentController.value.copyWith(
+                    text: sanitizedValue,
+                    selection:
+                        TextSelection.collapsed(offset: sanitizedValue.length),
+                  );
+                  calculatorFormNotifier.setMaxMonthlyPayment(sanitizedValue);
                 },
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
@@ -298,12 +316,14 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\,?\d{0,2}')),
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^\d*\.?\,?\d{0,2}')),
                   PercentageInputFormatter(),
                 ],
                 decoration: InputDecoration(
                   icon: const Icon(CupertinoIcons.percent),
-                  labelText: 'Max Monthly Payment',
+                  labelText:
+                      AppLocalizations.of(context)!.monthlyPaymentTextField,
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -328,7 +348,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 decoration: InputDecoration(
                   counterText: '',
                   icon: const Icon(CupertinoIcons.time),
-                  labelText: 'Loan Term in Years',
+                  labelText: AppLocalizations.of(context)!.loanTermTextField,
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -343,7 +363,15 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 controller: _interestRateController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
-                  calculatorFormNotifier.setLoanInterestRate(value);
+                  String sanitizedValue = value.replaceAll(',', '.');
+                  // Actualizar el valor en el controlador
+                  _interestRateController.value =
+                      _interestRateController.value.copyWith(
+                    text: sanitizedValue,
+                    selection:
+                        TextSelection.collapsed(offset: sanitizedValue.length),
+                  );
+                  calculatorFormNotifier.setLoanInterestRate(sanitizedValue);
                 },
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
@@ -351,12 +379,14 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\,?\d{0,2}')),
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^\d*\.?\,?\d{0,2}')),
                   PercentageInputFormatter(),
                 ],
                 decoration: InputDecoration(
                   icon: const Icon(CupertinoIcons.percent),
-                  labelText: 'Loan Interest Rate',
+                  labelText:
+                      AppLocalizations.of(context)!.interestRateTextField,
                   labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
@@ -421,7 +451,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   ),
                   onPressed: submitData,
                   child: Text(
-                    'Calculate',
+                    AppLocalizations.of(context)!.calculateButtonText,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 20,

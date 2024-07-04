@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AmortizationTableWidget extends StatefulWidget {
   const AmortizationTableWidget({super.key, required this.amortizationData});
@@ -19,12 +20,10 @@ class _AmortizationTableWidgetState extends State<AmortizationTableWidget> {
   double headerHeight = 56.0; // Altura del encabezado
 
   @override
-  void initState() {
-    super.initState();
-
+  Widget build(BuildContext context) {
     columns = <PlutoColumn>[
       PlutoColumn(
-        title: 'Month',
+        title: AppLocalizations.of(context)!.tableMonth,
         field: 'Month',
         type: PlutoColumnType.text(),
         enableContextMenu: false,
@@ -34,7 +33,7 @@ class _AmortizationTableWidgetState extends State<AmortizationTableWidget> {
         enableSorting: false,
       ),
       PlutoColumn(
-        title: 'Payment',
+        title: AppLocalizations.of(context)!.tablePayment,
         field: 'Payment',
         type: PlutoColumnType.text(),
         enableContextMenu: false,
@@ -44,7 +43,7 @@ class _AmortizationTableWidgetState extends State<AmortizationTableWidget> {
         enableSorting: false,
       ),
       PlutoColumn(
-        title: 'Interest',
+        title: AppLocalizations.of(context)!.tableInterest,
         field: 'Interest',
         type: PlutoColumnType.text(),
         enableContextMenu: false,
@@ -54,7 +53,7 @@ class _AmortizationTableWidgetState extends State<AmortizationTableWidget> {
         enableSorting: false,
       ),
       PlutoColumn(
-        title: 'Principal',
+        title: AppLocalizations.of(context)!.tablePrincipal,
         field: 'Principal',
         type: PlutoColumnType.text(),
         enableContextMenu: false,
@@ -64,7 +63,7 @@ class _AmortizationTableWidgetState extends State<AmortizationTableWidget> {
         enableSorting: false,
       ),
       PlutoColumn(
-        title: 'Balance',
+        title: AppLocalizations.of(context)!.tableBalance,
         field: 'Balance',
         type: PlutoColumnType.text(),
         enableContextMenu: false,
@@ -98,10 +97,7 @@ class _AmortizationTableWidgetState extends State<AmortizationTableWidget> {
         );
       },
     ).toList();
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return SizedBox(
       height: 500,
       child: PlutoGrid(

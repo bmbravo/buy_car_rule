@@ -1,3 +1,4 @@
+import 'package:buy_car_rule/models/amortization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AmortizationResultNotifier extends StateNotifier<Map<String, dynamic>> {
@@ -9,7 +10,7 @@ class AmortizationResultNotifier extends StateNotifier<Map<String, dynamic>> {
           'AmortizationList': <Map<String, String>>[],
         });
 
-  void setAmortizationType(String value) {
+  void setAmortizationType(AmortizationType value) {
     state = {...state, 'AmortizationType': value};
   }
 

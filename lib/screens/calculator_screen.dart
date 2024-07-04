@@ -5,6 +5,7 @@ import 'package:buy_car_rule/models/calculator.dart';
 import 'package:buy_car_rule/providers/amortization_result_provider.dart';
 import 'package:buy_car_rule/providers/calculator_form_provider.dart';
 import 'package:buy_car_rule/providers/calculator_results_provider.dart';
+import 'package:buy_car_rule/utils/amortization_type.dart';
 import 'package:buy_car_rule/utils/percentage_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -405,7 +406,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                     return DropdownMenuItem<AmortizationType>(
                       value: amortization,
                       child: Text(
-                        amortization.name.toUpperCase(),
+                        getAmortizationTypeName(
+                            AppLocalizations.of(context)!, amortization),
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                             fontSize: 20),
@@ -426,7 +428,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                           ),
                           Center(
                             child: Text(
-                              amortization.name.toUpperCase(),
+                              getAmortizationTypeName(
+                                  AppLocalizations.of(context)!, amortization),
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!

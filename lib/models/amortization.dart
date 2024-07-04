@@ -40,7 +40,7 @@ class AmortizationTable {
     }
 
     return {
-      'AmortizationType': 'French',
+      'AmortizationType': AmortizationType.french,
       'TotalInterestPaid': totalInterest.toStringAsFixed(2),
       'TotalAmountPaid': (loanAmount + totalInterest).toStringAsFixed(2),
       'AmortizationList': amortizationList,
@@ -76,7 +76,7 @@ class AmortizationTable {
     }
 
     return {
-      'AmortizationType': 'German',
+      'AmortizationType': AmortizationType.german,
       'TotalInterestPaid': totalInterest.toStringAsFixed(2),
       'TotalAmountPaid': (loanAmount + totalInterest).toStringAsFixed(2),
       'AmortizationList': amortizationList,

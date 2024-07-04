@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:buy_car_rule/providers/amortization_result_provider.dart';
 import 'package:buy_car_rule/providers/calculator_results_provider.dart';
+import 'package:buy_car_rule/utils/amortization_type.dart';
 import 'package:buy_car_rule/widgets/amortization_table.dart';
 import 'package:buy_car_rule/widgets/result_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResultsScreen extends ConsumerStatefulWidget {
   const ResultsScreen({super.key, required this.onSelectScreen});
@@ -83,7 +85,7 @@ class _ResultsScreenState extends ConsumerState<ResultsScreen> {
                   widget.onSelectScreen(0);
                 },
                 label: Text(
-                  'Go Back',
+                  AppLocalizations.of(context)!.goBack,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 20,
@@ -93,40 +95,40 @@ class _ResultsScreenState extends ConsumerState<ResultsScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                'Calculator Results',
+                AppLocalizations.of(context)!.calculatorResults,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
               ),
               const SizedBox(height: 10),
               ResultCard(
-                text: 'Anual Income: \$${calculatorResults['anual_income']}',
-              ),
-              const SizedBox(height: 10),
-              ResultCard(
-                text: 'Car Price: \$${calculatorResults['car_price']}',
-              ),
-              const SizedBox(height: 10),
-              ResultCard(
-                text: 'Down Payment: \$${calculatorResults['down_payment']}',
-              ),
-              const SizedBox(height: 10),
-              ResultCard(
-                text: 'Anual Income: \$${calculatorResults['anual_income']}',
-              ),
-              const SizedBox(height: 10),
-              ResultCard(
-                text: 'Loan Amount: \$${calculatorResults['loan_amount']}',
+                text:
+                    '${AppLocalizations.of(context)!.anualIncomeResultsText}: \$${calculatorResults['anual_income']}',
               ),
               const SizedBox(height: 10),
               ResultCard(
                 text:
-                    'Maximum Monthly Payment: \$${calculatorResults['max_monthly_payment']}',
+                    '${AppLocalizations.of(context)!.carPriceResultsText}: \$${calculatorResults['car_price']}',
               ),
               const SizedBox(height: 10),
               ResultCard(
                 text:
-                    'Monthly Payment: \$${calculatorResults['monthly_payment']}',
+                    '${AppLocalizations.of(context)!.downPaymentResultsText}: \$${calculatorResults['down_payment']}',
+              ),
+              const SizedBox(height: 10),
+              ResultCard(
+                text:
+                    '${AppLocalizations.of(context)!.loanAmountResultsText}: \$${calculatorResults['loan_amount']}',
+              ),
+              const SizedBox(height: 10),
+              ResultCard(
+                text:
+                    '${AppLocalizations.of(context)!.maxMonthlyPaymentResultsText}: \$${calculatorResults['max_monthly_payment']}',
+              ),
+              const SizedBox(height: 10),
+              ResultCard(
+                text:
+                    '${AppLocalizations.of(context)!.monthlyPaymentResultsText}: \$${calculatorResults['monthly_payment']}',
                 trailingIcon: GestureDetector(
                   onTap: showDialogBudget,
                   child: Icon(
@@ -139,7 +141,7 @@ class _ResultsScreenState extends ConsumerState<ResultsScreen> {
               ),
               const SizedBox(height: 15),
               Text(
-                'Loan Results',
+                AppLocalizations.of(context)!.loanResults,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -147,17 +149,20 @@ class _ResultsScreenState extends ConsumerState<ResultsScreen> {
               const SizedBox(height: 10),
               ResultCard(
                 text:
-                    'Amortization Type: ${amortizationResults['AmortizationType']}',
+                    '${AppLocalizations.of(context)!.amortizationTypeResultsText}: ${getAmortizationTypeName(
+                  AppLocalizations.of(context)!,
+                  amortizationResults['AmortizationType'],
+                )}',
               ),
               const SizedBox(height: 10),
               ResultCard(
                 text:
-                    'Total Interest: \$${amortizationResults['TotalInterestPaid']}',
+                    '${AppLocalizations.of(context)!.totalInterestResultsText}: \$${amortizationResults['TotalInterestPaid']}',
               ),
               const SizedBox(height: 10),
               ResultCard(
                 text:
-                    'Total Loan Amount: \$${amortizationResults['TotalAmountPaid']}',
+                    '${AppLocalizations.of(context)!.toalLoanAmountResultsText}: \$${amortizationResults['TotalAmountPaid']}',
               ),
               const SizedBox(height: 20),
               Padding(

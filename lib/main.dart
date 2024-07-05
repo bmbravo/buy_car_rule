@@ -1,4 +1,4 @@
-import 'package:buy_car_rule/providers/language_provider.dart';
+import 'package:buy_car_rule/providers/settings_provider.dart';
 import 'package:buy_car_rule/screens/container_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,10 +62,10 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageState = ref.watch(languageProvider);
+    final settingsState = ref.watch(settingsProvider);
 
     return MaterialApp(
-      locale: Locale(languageState['language']!),
+      locale: Locale(settingsState['language']!),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -78,7 +78,9 @@ class App extends ConsumerWidget {
       ],
       darkTheme: darkTheme,
       theme: lightTheme,
-      themeMode: ThemeMode.system,
+      themeMode: settingsState['isDarkMode'] == true
+          ? ThemeMode.dark
+          : ThemeMode.light,
       home: const LandingScreen(),
     );
   }

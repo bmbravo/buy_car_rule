@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CalculatorFormNotifier extends StateNotifier<Map<String, dynamic>> {
   CalculatorFormNotifier()
       : super({
-          'anualIncome': '20000',
-          'carPrice': '5000',
-          'downPayment': '20',
-          'maxMonthlyPayment': '10',
-          'loanTerm': '4',
-          'loanInterestRate': '6',
+          'anualIncome': '',
+          'carPrice': '',
+          'downPayment': '',
+          'maxMonthlyPayment': '',
+          'loanTerm': '',
+          'loanInterestRate': '',
           'amortizationType': AmortizationType.french,
         });
 

@@ -1,4 +1,4 @@
-import 'package:buy_car_rule/providers/language_provider.dart';
+import 'package:buy_car_rule/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,8 +8,8 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageState = ref.watch(languageProvider);
-    final languageNotifier = ref.read(languageProvider.notifier);
+    final settingsState = ref.watch(settingsProvider);
+    final settingsNotifier = ref.read(settingsProvider.notifier);
 
     return SizedBox(
       height: double.infinity,
@@ -27,9 +27,9 @@ class SettingsScreen extends ConsumerWidget {
                       .copyWith(color: Theme.of(context).colorScheme.onSurface),
                 ),
                 value: 'en',
-                groupValue: languageState['language'],
+                groupValue: settingsState['language'] as String,
                 onChanged: (value) {
-                  languageNotifier.setLanguage(value!);
+                  settingsNotifier.setLanguage(value!);
                 },
               ),
               RadioListTile(
@@ -41,9 +41,9 @@ class SettingsScreen extends ConsumerWidget {
                       .copyWith(color: Theme.of(context).colorScheme.onSurface),
                 ),
                 value: 'es',
-                groupValue: languageState['language'],
+                groupValue: settingsState['language'] as String,
                 onChanged: (value) {
-                  languageNotifier.setLanguage(value!);
+                  settingsNotifier.setLanguage(value!);
                 },
               ),
             ],

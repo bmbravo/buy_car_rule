@@ -1,4 +1,7 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:buy_car_rule/main.dart';
 import 'package:buy_car_rule/providers/calculator_form_provider.dart';
+import 'package:buy_car_rule/providers/settings_provider.dart';
 import 'package:buy_car_rule/screens/calculator_screen.dart';
 import 'package:buy_car_rule/screens/results_screen.dart';
 import 'package:buy_car_rule/screens/settings_screen.dart';
@@ -28,7 +31,11 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dark = darkTheme;
+    final light = lightTheme;
+
     final calculatorFormNotifier = ref.read(calculatorFormProvider.notifier);
+    final settingsNotifier = ref.read(settingsProvider.notifier);
 
     // Configuración de screenOptions dentro del método build
     final List<Map<String, dynamic>> screenOptions = [
@@ -46,36 +53,63 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
       },
     ];
 
-    return Scaffold(
-      floatingActionButton: _selectedPageIndex == 0
-          ? FloatingActionButton(
-              onPressed: () {
-                calculatorFormNotifier.reset();
+    return ThemeSwitchingArea(
+      child: Scaffold(
+        floatingActionButton: _selectedPageIndex == 0
+            ? FloatingActionButton(
+                onPressed: () {
+                  calculatorFormNotifier.reset();
+                },
+                tooltip: AppLocalizations.of(context)!.clearData,
+                child: const Icon(
+                  CupertinoIcons.clear_circled,
+                  size: 35,
+                ),
+              )
+            : null,
+        appBar: AppBar(
+          actions: [
+            ThemeSwitcher(
+              clipper: const ThemeSwitcherCircleClipper(),
+              builder: (context) {
+                return IconButton(
+                  onPressed: () {
+                    if (mounted) {
+                      // Verificar si el widget está montado
+                      final brightness = ThemeModelInheritedNotifier.of(context)
+                          .theme
+                          .brightness;
+                      settingsNotifier.setDarkMode(
+                          brightness == Brightness.light ? true : false);
+                      ThemeSwitcher.of(context).changeTheme(
+                        theme: brightness == Brightness.light ? dark : light,
+                        isReversed:
+                            brightness == Brightness.light ? true : false,
+                      );
+                    }
+                  },
+                  icon: Icon(
+                    ThemeModelInheritedNotifier.of(context).theme.brightness ==
+                            Brightness.light
+                        ? Icons.dark_mode
+                        : Icons.light_mode,
+                  ),
+                );
               },
-              tooltip: AppLocalizations.of(context)!.clearData,
-              child: const Icon(
-                CupertinoIcons.clear_circled,
-                size: 35,
-              ),
             )
-          : null,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-        title: Text(
-          screenOptions[_selectedPageIndex]['title'],
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 3,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+          ],
+          title: Text(
+            screenOptions[_selectedPageIndex]['title'],
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 30, letterSpacing: 5),
+          ),
         ),
-      ),
-      drawer: MainDrawer(
-        onSelectScreen: _selectScreen,
-      ),
-      body: Center(
-        child: screenOptions[_selectedPageIndex]['widget'],
+        drawer: MainDrawer(
+          onSelectScreen: _selectScreen,
+        ),
+        body: Center(
+          child: screenOptions[_selectedPageIndex]['widget'],
+        ),
       ),
     );
   }

@@ -42,6 +42,7 @@ dependencies:
   intl: any
   flutter_launcher_icons: ^0.13.1
   shared_preferences: ^2.2.3
+  animated_theme_switcher: ^2.0.10
 
 dev_dependencies:
   flutter_test:

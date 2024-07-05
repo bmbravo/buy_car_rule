@@ -1,11 +1,13 @@
-import 'package:buy_car_rule/providers/settings_provider.dart';
-import 'package:buy_car_rule/screens/container_screen.dart';
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'providers/settings_provider.dart';
+import 'screens/container_screen.dart';
 
 final lightColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
@@ -62,26 +64,39 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settingsState = ref.watch(settingsProvider);
+    final initialSettings = ref.watch(initialSettingsProvider);
 
-    return MaterialApp(
-      locale: Locale(settingsState['language']!),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('es'), // Spanish
-      ],
-      darkTheme: darkTheme,
-      theme: lightTheme,
-      themeMode: settingsState['isDarkMode'] == true
-          ? ThemeMode.dark
-          : ThemeMode.light,
-      home: const LandingScreen(),
+    return initialSettings.when(
+      data: (settings) {
+        final theme = settings['isDarkMode'] ? darkTheme : lightTheme;
+
+        return ThemeProvider(
+          initTheme: theme,
+          builder: (context, theme) => Consumer(
+            builder: (context, ref, child) {
+              final settingsState = ref.watch(settingsProvider);
+              final locale = Locale(settingsState['language']);
+
+              return MaterialApp(
+                locale: locale,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en'), // English
+                  Locale('es'), // Spanish
+                ],
+                home: const LandingScreen(),
+              );
+            },
+          ),
+        );
+      },
+      loading: () => const CircularProgressIndicator(),
+      error: (err, stack) => Text('Error: $err'),
     );
   }
 }

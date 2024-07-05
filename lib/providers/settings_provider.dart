@@ -35,10 +35,12 @@ final initialSettingsProvider =
     FutureProvider<Map<String, dynamic>>((ref) async {
   final prefs = await SharedPreferences.getInstance();
   final storedLanguage = prefs.getString('language');
+  final storedIsDarkMode = prefs.getBool('isDarkMode');
   // Obtener el tema actual del sistema utilizando MediaQuery
   final Brightness platformBrightness =
       WidgetsBinding.instance.platformDispatcher.platformBrightness;
-  final isDarkMode = platformBrightness == Brightness.dark;
+  final isDarkMode = storedIsDarkMode ??
+      (platformBrightness == Brightness.dark ? true : false);
 
   final languageCode = PlatformDispatcher.instance.locale.languageCode;
   final language = (storedLanguage != null &&

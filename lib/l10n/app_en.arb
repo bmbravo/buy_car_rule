@@ -33,5 +33,8 @@
   "tableBalance": "Balance",
   "calculatorResults": "Calculator Results",
   "loanResults": "Amortization Results",
-  "goBack": "Go Back"
+  "goBack": "Go Back",
+  "budgetGood": "Your monthly payment is good for your budget",
+  "budgetBad": "You monthly payment exceeds your budget",
+  "budgetAlert": "Budget Status"
 }

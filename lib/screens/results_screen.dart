@@ -29,21 +29,21 @@ class _ResultsScreenState extends ConsumerState<ResultsScreen> {
 
     void showDialogBudget() {
       String textDialog = calculatorResults['is_payment_limit'] == true
-          ? 'Your monthly payment is good for your budget'
-          : 'You monthly payment exceeds your budget';
+          ? AppLocalizations.of(context)!.budgetGood
+          : AppLocalizations.of(context)!.budgetBad;
 
       if (Platform.isIOS) {
         showCupertinoDialog(
           context: context,
           builder: (ctx) => CupertinoAlertDialog(
-            title: const Text('Budget Status'),
+            title: Text(AppLocalizations.of(context)!.budgetAlert),
             content: Text(textDialog),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(ctx);
                 },
-                child: const Text('Okay'),
+                child: const Text('Ok'),
               )
             ],
           ),

@@ -33,5 +33,8 @@
   "tableBalance": "Saldo",
   "calculatorResults": "Resultados Calculadora",
   "loanResults": "Resultado Amortización",
-  "goBack": "Regresar"
+  "goBack": "Regresar",
+  "budgetGood": "Tu pago mensual no supera tu presuesto",
+  "budgetBad": "Tu pago mensual supera tu presupuesto",
+  "budgetAlert": "Alerta Presupuesto"
 }

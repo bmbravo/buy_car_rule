@@ -34,7 +34,17 @@
   "calculatorResults": "Resultados Calculadora",
   "loanResults": "Resultado Amortización",
   "goBack": "Regresar",
-  "budgetGood": "Tu pago mensual no supera tu presuesto",
-  "budgetBad": "Tu pago mensual supera tu presupuesto",
-  "budgetAlert": "Alerta Presupuesto"
+  "budgetGood": "¡Felicidades! El pago mensual está dentro de su límite máximo. Puede permitirse comprar este automóvil.",
+  "budgetBad": "Desafortunadamente, el pago mensual excede su límite máximo. Comprar este automóvil puede no ser financieramente viable.",
+  "budgetAlert": "Alerta Presupuesto",
+  "infoDialogTitle": "Información",
+  "invalidInput": "Información Incorrecta",
+  "enterValidText": "Ingrese un valor válido para:",
+  "anualIncomeInfo": "Por favor, ingrese sus ingresos anuales. Esto nos ayuda a determinar el precio máximo del automóvil que puede permitirse según su situación financiera.",
+  "carPriceInfo": "Por favor, ingrese el precio del automóvil que le interesa. Esto nos ayudará a calcular la viabilidad de su compra en función de su presupuesto.",
+  "downPaymentInfo": "Por favor, ingrese la cantidad que planea usar como pago inicial. Un pago inicial más alto puede reducir sus pagos mensuales y los intereses totales.",
+  "maxMonthlyPaymentInfo": "Por favor, ingrese la cantidad máxima que puede pagar mensualmente. Esto ayuda a asegurar que los pagos del automóvil se ajusten a su presupuesto.",
+  "loanTermInfo": "Por favor, ingrese el plazo del préstamo en años. El plazo del préstamo afecta el monto de su pago mensual y los intereses totales pagados.",
+  "interestRateInfo": "Por favor, ingrese la tasa de interés para su préstamo automotriz. La tasa de interés impacta sus pagos mensuales y el costo total del préstamo.",
+  "languageSettings": "Idioma"
 }

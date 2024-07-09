@@ -34,7 +34,17 @@
   "calculatorResults": "Calculator Results",
   "loanResults": "Amortization Results",
   "goBack": "Go Back",
-  "budgetGood": "Your monthly payment is good for your budget",
-  "budgetBad": "You monthly payment exceeds your budget",
-  "budgetAlert": "Budget Status"
+  "budgetGood": "Congratulations! The monthly payment is within your maximum limit. You can afford to buy this car.",
+  "budgetBad": "Unfortunately, the monthly payment exceeds your maximum limit. Buying this car may not be financially feasible.",
+  "budgetAlert": "Budget Status",
+  "infoDialogTitle": "Info",
+  "invalidInput": "Invalid Input",
+  "enterValidText": "Please enter a valid",
+  "anualIncomeInfo": "Please enter your annual income. This helps us determine the maximum car price you can afford based on your financial situation.",
+  "carPriceInfo": "Please enter the price of the car you are interested in. This will help us calculate the feasibility of your purchase based on your budget.",
+  "downPaymentInfo": "Please enter the amount you plan to use as a down payment. A higher down payment can reduce your monthly payments and overall interest.",
+  "maxMonthlyPaymentInfo": "Please enter the maximum amount you can afford to pay monthly. This helps ensure that your car payments fit within your budget.",
+  "loanTermInfo": "Please enter the term of the loan in years. The loan term affects your monthly payment amount and total interest paid.",
+  "interestRateInfo": "Please enter the interest rate for your car loan. The interest rate impacts your monthly payments and the total cost of the loan.",
+  "languageSettings": "Language"
 }

@@ -7,6 +7,7 @@ import 'package:buy_car_rule/providers/calculator_form_provider.dart';
 import 'package:buy_car_rule/providers/calculator_results_provider.dart';
 import 'package:buy_car_rule/utils/amortization_type.dart';
 import 'package:buy_car_rule/utils/percentage_input_formatter.dart';
+import 'package:buy_car_rule/widgets/calculator_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +35,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
 
   String? validateField(String fieldName, double? value) {
     if (value == null || value <= 0) {
-      return 'Please enter a valid $fieldName';
+      return '${AppLocalizations.of(context)!.enterValidText} $fieldName';
     }
     return null;
   }
@@ -44,7 +45,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
       showCupertinoDialog(
         context: context,
         builder: (ctx) => CupertinoAlertDialog(
-          title: const Text('Invalid Input'),
+          title: Text(AppLocalizations.of(context)!.invalidInput),
           content: Text(errorText),
           actions: [
             TextButton(
@@ -60,7 +61,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('Invalid Input'),
+          title: Text(AppLocalizations.of(context)!.invalidInput),
           content: Text(errorText),
           actions: [
             TextButton(
@@ -68,6 +69,42 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                 Navigator.pop(ctx);
               },
               child: const Text('Okay'),
+            )
+          ],
+        ),
+      );
+    }
+  }
+
+  void _showDialogInfo(String text) {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+          // title: Text(AppLocalizations.of(context)!.infoDialogTitle),
+          content: Text(text),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Ok'),
+            )
+          ],
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.infoDialogTitle),
+          content: Text(text),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Ok'),
             )
           ],
         ),
@@ -116,37 +153,44 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
 
       String? errorText;
 
-      errorText = validateField('Annual Income', anualIncome);
+      errorText = validateField(
+          AppLocalizations.of(context)!.anualIncomeResultsText, anualIncome);
       if (errorText != null) {
         _showDialog(errorText: errorText);
         return;
       }
 
-      errorText = validateField('Car Price', carPrice);
+      errorText = validateField(
+          AppLocalizations.of(context)!.carPriceResultsText, carPrice);
       if (errorText != null) {
         _showDialog(errorText: errorText);
         return;
       }
 
-      errorText = validateField('Down Payment', downPayment);
+      errorText = validateField(
+          AppLocalizations.of(context)!.downPaymentResultsText, downPayment);
       if (errorText != null) {
         _showDialog(errorText: errorText);
         return;
       }
 
-      errorText = validateField('Max Monthly Payment', monthlyPayment);
+      errorText = validateField(
+          AppLocalizations.of(context)!.maxMonthlyPaymentResultsText,
+          monthlyPayment);
       if (errorText != null) {
         _showDialog(errorText: errorText);
         return;
       }
 
       if (loanTerm == null || loanTerm <= 0) {
-        errorText = 'Please enter a valid Loan Term';
+        errorText =
+            '${AppLocalizations.of(context)!.enterValidText} ${AppLocalizations.of(context)!.loanTermTextField}';
         _showDialog(errorText: errorText);
         return;
       }
 
-      errorText = validateField('Loan Interest Rate', interestRate);
+      errorText = validateField(
+          AppLocalizations.of(context)!.interestRateTextField, interestRate);
       if (errorText != null) {
         _showDialog(errorText: errorText);
         return;
@@ -209,59 +253,51 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
           padding: const EdgeInsets.all(26),
           child: Column(
             children: [
-              TextField(
-                controller: _anualIncomeController,
+              CalculatorInput(
+                textController: _anualIncomeController,
                 onChanged: (value) {
+                  if (value.isEmpty) return;
                   calculatorFormNotifier.setAnualIncome(value);
                 },
-                maxLength: 25,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: 20),
+                labelText: AppLocalizations.of(context)!.anualIncomeTextField,
+                icon: const Icon(CupertinoIcons.money_dollar),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: false),
-                decoration: InputDecoration(
-                  counterText: '',
-                  icon: const Icon(CupertinoIcons.money_dollar),
-                  labelText: AppLocalizations.of(context)!.anualIncomeTextField,
-                  labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18,
-                      ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.only(
-                      top: 16.0), // Ajusta el valor según sea necesario
+                maxLength: 25,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _showDialogInfo(
+                        AppLocalizations.of(context)!.anualIncomeInfo);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.info,
+                  ),
                 ),
               ),
               const SizedBox(height: 25),
-              TextField(
-                controller: _carPriceController,
+              CalculatorInput(
+                textController: _carPriceController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
                   calculatorFormNotifier.setCarPrice(value);
                 },
-                maxLength: 25,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: 20),
+                labelText: AppLocalizations.of(context)!.carPriceTextField,
+                icon: const Icon(CupertinoIcons.car_detailed),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: false),
-                decoration: InputDecoration(
-                  counterText: '',
-                  icon: const Icon(CupertinoIcons.car_detailed),
-                  labelText: AppLocalizations.of(context)!.carPriceTextField,
-                  labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18,
-                      ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.only(
-                      top: 16.0), // Ajusta el valor según sea necesario
+                maxLength: 25,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _showDialogInfo(AppLocalizations.of(context)!.carPriceInfo);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.info,
+                  ),
                 ),
               ),
               const SizedBox(height: 25),
-              TextField(
-                controller: _dowPaymentController,
+              CalculatorInput(
+                textController: _dowPaymentController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
                   String sanitizedValue = value.replaceAll(',', '.');
@@ -274,9 +310,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   );
                   calculatorFormNotifier.setDownPayment(sanitizedValue);
                 },
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: 20),
+                labelText: AppLocalizations.of(context)!.downPaymentTextField,
+                icon: const Icon(CupertinoIcons.percent),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
@@ -284,21 +319,19 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                       RegExp(r'^\d*\.?\,?\d{0,2}')),
                   PercentageInputFormatter(),
                 ],
-                decoration: InputDecoration(
-                  icon: const Icon(CupertinoIcons.percent),
-                  labelText: AppLocalizations.of(context)!.downPaymentTextField,
-                  labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18,
-                      ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.only(
-                      top: 16.0), // Ajusta el valor según sea necesario
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _showDialogInfo(
+                        AppLocalizations.of(context)!.downPaymentInfo);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.info,
+                  ),
                 ),
               ),
               const SizedBox(height: 25),
-              TextField(
-                controller: _monthlyPaymentController,
+              CalculatorInput(
+                textController: _monthlyPaymentController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
                   String sanitizedValue = value.replaceAll(',', '.');
@@ -311,9 +344,9 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   );
                   calculatorFormNotifier.setMaxMonthlyPayment(sanitizedValue);
                 },
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: 20),
+                labelText:
+                    AppLocalizations.of(context)!.monthlyPaymentTextField,
+                icon: const Icon(CupertinoIcons.percent),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
@@ -321,47 +354,39 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                       RegExp(r'^\d*\.?\,?\d{0,2}')),
                   PercentageInputFormatter(),
                 ],
-                decoration: InputDecoration(
-                  icon: const Icon(CupertinoIcons.percent),
-                  labelText:
-                      AppLocalizations.of(context)!.monthlyPaymentTextField,
-                  labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18,
-                      ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.only(
-                      top: 16.0), // Ajusta el valor según sea necesario
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _showDialogInfo(
+                        AppLocalizations.of(context)!.maxMonthlyPaymentInfo);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.info,
+                  ),
                 ),
               ),
               const SizedBox(height: 25),
-              TextField(
-                controller: _loanTermController,
+              CalculatorInput(
+                textController: _loanTermController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
                   calculatorFormNotifier.setLoanTerm(value);
                 },
-                maxLength: 2,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: 20),
+                labelText: AppLocalizations.of(context)!.loanTermTextField,
+                icon: const Icon(CupertinoIcons.time),
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  counterText: '',
-                  icon: const Icon(CupertinoIcons.time),
-                  labelText: AppLocalizations.of(context)!.loanTermTextField,
-                  labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18,
-                      ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.only(
-                      top: 16.0), // Ajusta el valor según sea necesario
+                maxLength: 2,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _showDialogInfo(AppLocalizations.of(context)!.loanTermInfo);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.info,
+                  ),
                 ),
               ),
               const SizedBox(height: 25),
-              TextField(
-                controller: _interestRateController,
+              CalculatorInput(
+                textController: _interestRateController,
                 onChanged: (value) {
                   if (value.isEmpty) return;
                   String sanitizedValue = value.replaceAll(',', '.');
@@ -374,9 +399,8 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   );
                   calculatorFormNotifier.setLoanInterestRate(sanitizedValue);
                 },
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: 20),
+                labelText: AppLocalizations.of(context)!.interestRateTextField,
+                icon: const Icon(CupertinoIcons.percent),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
@@ -384,17 +408,14 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                       RegExp(r'^\d*\.?\,?\d{0,2}')),
                   PercentageInputFormatter(),
                 ],
-                decoration: InputDecoration(
-                  icon: const Icon(CupertinoIcons.percent),
-                  labelText:
-                      AppLocalizations.of(context)!.interestRateTextField,
-                  labelStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18,
-                      ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: const EdgeInsets.only(
-                      top: 16.0), // Ajusta el valor según sea necesario
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _showDialogInfo(
+                        AppLocalizations.of(context)!.interestRateInfo);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.info,
+                  ),
                 ),
               ),
               const SizedBox(height: 25),

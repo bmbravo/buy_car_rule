@@ -18,6 +18,19 @@ class SettingsScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
+              Text(
+                AppLocalizations.of(context)!.languageSettings,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Divider(
+                height: 30,
+                thickness: 1,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
               RadioListTile(
                 title: Text(
                   AppLocalizations.of(context)!.english,

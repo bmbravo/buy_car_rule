@@ -11,11 +11,11 @@ import 'screens/container_screen.dart';
 
 final lightColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
-  seedColor: const Color.fromARGB(255, 68, 197, 229),
+  seedColor: const Color.fromARGB(255, 64, 93, 114),
 );
 
 final darkColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 14, 12, 91),
+  seedColor: const Color.fromARGB(255, 7, 15, 43),
   brightness: Brightness.dark,
 );
 

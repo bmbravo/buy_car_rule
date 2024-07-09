@@ -46,5 +46,6 @@
   "maxMonthlyPaymentInfo": "Please enter the maximum amount you can afford to pay monthly. This helps ensure that your car payments fit within your budget.",
   "loanTermInfo": "Please enter the term of the loan in years. The loan term affects your monthly payment amount and total interest paid.",
   "interestRateInfo": "Please enter the interest rate for your car loan. The interest rate impacts your monthly payments and the total cost of the loan.",
-  "languageSettings": "Language"
+  "languageSettings": "Language",
+  "typeOfAmortization": "Amortization Type"
 }

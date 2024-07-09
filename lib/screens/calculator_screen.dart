@@ -427,8 +427,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                     return DropdownMenuItem<AmortizationType>(
                       value: amortization,
                       child: Text(
-                        getAmortizationTypeName(
-                            AppLocalizations.of(context)!, amortization),
+                        '${AppLocalizations.of(context)!.typeOfAmortization}: ${getAmortizationTypeName(AppLocalizations.of(context)!, amortization)}',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                             fontSize: 20),

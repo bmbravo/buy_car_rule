@@ -46,5 +46,6 @@
   "maxMonthlyPaymentInfo": "Por favor, ingrese la cantidad máxima que puede pagar mensualmente. Esto ayuda a asegurar que los pagos del automóvil se ajusten a su presupuesto.",
   "loanTermInfo": "Por favor, ingrese el plazo del préstamo en años. El plazo del préstamo afecta el monto de su pago mensual y los intereses totales pagados.",
   "interestRateInfo": "Por favor, ingrese la tasa de interés para su préstamo automotriz. La tasa de interés impacta sus pagos mensuales y el costo total del préstamo.",
-  "languageSettings": "Idioma"
+  "languageSettings": "Idioma",
+  "typeOfAmortization": "Tipo de Amortización"
 }
